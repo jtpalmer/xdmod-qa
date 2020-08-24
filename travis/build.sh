@@ -151,14 +151,6 @@ while IFS= read -r -d $'\0' file; do
     fi
 done < <(git -c diff.renameLimit=6000 diff --name-only --diff-filter=dar -z "$TRAVIS_COMMIT_RANGE")
 
-echo 'BEGIN: file --help'
-file --help
-echo 'END: file --help'
-
-echo 'BEGIN: file -l'
-file -l
-echo 'END: file -l'
-
 # Separate the changed files by language.
 php_files_changed=()
 js_files_changed=()
@@ -169,7 +161,7 @@ for file in "${files_changed[@]}"; do
     echo "$file"
     file -b "$file"
     file -b -k "$file"
-    if [[ "$file" == *.php ]] || [[ "$(file -b "$file")" =~ $php_regex ]]; then
+    if [[ "$file" == *.php ]] || [[ "$(file -b -k "$file")" =~ $php_regex ]]; then
         php_files_changed+=("$file")
     elif [[ "$file" == *.js ]]; then
         js_files_changed+=("$file")
