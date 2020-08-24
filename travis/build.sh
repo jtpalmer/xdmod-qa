@@ -168,6 +168,7 @@ php_regex='\bphp script\b'
 for file in "${files_changed[@]}"; do
     echo "$file"
     file -b "$file"
+    file -b -k "$file"
     if [[ "$file" == *.php ]] || [[ "$(file -b "$file")" =~ $php_regex ]]; then
         php_files_changed+=("$file")
     elif [[ "$file" == *.js ]]; then
